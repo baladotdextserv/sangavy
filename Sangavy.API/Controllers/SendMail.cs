@@ -15,9 +15,21 @@ public class SendMailController : ControllerBase
     [HttpPost("/send-mail")]
     public IActionResult GetMessage([FromBody] RequestSendMail request)
     {
-        string content = $"Name: {request.Name} \nEmail: {request.Email} \nPhone No: {request.PhoneNo} \nMessage: {request.Content}";
-        _mailRepository.SentMail(content);
-        return Ok(content);
+        if (request == null || !ModelState.IsValid)
+        {
+            return BadRequest("Invalid request data.");
+        }
+
+        string content = $"Name: {request.Name}\nEmail: {request.Email}\nPhone No: {request.PhoneNo}\nMessage: {request.Content}";
+
+        bool result = _mailRepository.SentMail(content);
+
+        if (result)
+        {
+            return Ok(request);
+        }
+
+        return BadRequest("Failed to send mail.");
     }
 }
 

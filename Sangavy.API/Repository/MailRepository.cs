@@ -12,7 +12,7 @@ public class MailRepository
 
     }
 
-    public void SentMail(string content)
+    public bool SentMail(string content)
     {
         try
         {
@@ -33,10 +33,12 @@ public class MailRepository
             smtp.Credentials = new NetworkCredential(MailConstants.FromMailAddress, MailConstants.FromMailPassword);
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Send(message);
+            return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error sending email: " + ex.Message);
+            return false;
         }
     }
 }
