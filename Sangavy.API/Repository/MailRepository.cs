@@ -23,7 +23,7 @@ public class MailRepository
             SmtpClient smtp = new SmtpClient();
             message.From = new MailAddress(MailConstants.FromMailAddress);
             message.To.Add(new MailAddress(MailConstants.ToMailAddress));
-            message.Subject = "Test";
+            message.Subject = "Contact Us - Mail";
             message.IsBodyHtml = true;
             message.Body = content;
             smtp.Port = 587;
