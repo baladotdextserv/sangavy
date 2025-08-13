@@ -16,8 +16,8 @@ public class MailRepository
     {
         try
         {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                    (sender, certificate, chain, sslPolicyErrors) => true;
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback =
+            //        (sender, certificate, chain, sslPolicyErrors) => true;
 
             MailMessage message = new MailMessage();
             SmtpClient smtp = new SmtpClient();
