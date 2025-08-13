@@ -28,7 +28,7 @@ public class MailRepository
             message.Body = content;
             smtp.Port = 587;
             smtp.Host = "smtp.sangavy.com";
-            smtp.EnableSsl = true;
+            smtp.EnableSsl = false;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(MailConstants.FromMailAddress, MailConstants.FromMailPassword);
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
