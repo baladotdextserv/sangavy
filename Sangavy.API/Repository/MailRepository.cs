@@ -16,24 +16,30 @@ public class MailRepository
 
     public bool SentMail(string content)
     {
+        System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                (sender, certificate, chain, sslPolicyErrors) => true;
+
         try
         {
-            //System.Net.ServicePointManager.ServerCertificateValidationCallback =
-            //        (sender, certificate, chain, sslPolicyErrors) => true;
-
             MailMessage message = new MailMessage();
             SmtpClient smtp = new SmtpClient();
+
             message.From = new MailAddress(MailConstants.FromMailAddress);
             message.To.Add(new MailAddress(MailConstants.ToMailAddress));
             message.Subject = "Contact Us - Mail";
             message.IsBodyHtml = true;
             message.Body = content;
-            smtp.Port = 587;
+
+            smtp.Port = 587; 
             smtp.Host = "smtp.sangavy.com";
-            smtp.EnableSsl = false;
+            smtp.EnableSsl = true;
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(MailConstants.FromMailAddress, MailConstants.FromMailPassword);
+            smtp.Credentials = new NetworkCredential(
+                MailConstants.FromMailAddress,
+                MailConstants.FromMailPassword);
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtp.Timeout = 10000; 
+
             smtp.Send(message);
 
             _logger.LogInformation("Mail sent successfully at {Time}", DateTime.UtcNow);
@@ -41,9 +47,9 @@ public class MailRepository
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error sending email: " + ex.Message);
             _logger.LogError(ex, "Error sending email at {Time}", DateTime.UtcNow);
             return false;
         }
+
     }
 }

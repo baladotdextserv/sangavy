@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sangavy.API.Repository;
+using System.Threading.Tasks;
 
 namespace Sangavy.API.Controllers;
 
@@ -15,10 +16,10 @@ public class SendMailController : ControllerBase
     [HttpPost("/send-mail")]
     public IActionResult GetMessage([FromBody] RequestSendMail request)
     {
-        if (request == null || !ModelState.IsValid)
-        {
-            return BadRequest("Invalid request data.");
-        }
+        //if (request == null || !ModelState.IsValid)
+        //{
+        //    return BadRequest("Invalid request data.");
+        //}
 
         string content = $"Name: {request.Name}\nEmail: {request.Email}\nPhone No: {request.PhoneNo}\nMessage: {request.Content}";
 
@@ -35,8 +36,8 @@ public class SendMailController : ControllerBase
 
 public class RequestSendMail
 {
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string PhoneNo { get; set; }
-    public string Content { get; set; }
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+    public string? PhoneNo { get; set; }
+    public string? Content { get; set; }
 }
