@@ -7,9 +7,11 @@ namespace Sangavy.API.Repository;
 
 public class MailRepository
 {
-    public MailRepository()
-    {
+    private readonly ILogger<MailRepository> _logger;
 
+    public MailRepository(ILogger<MailRepository> logger)
+    {
+        _logger = logger;
     }
 
     public bool SentMail(string content)
@@ -33,11 +35,14 @@ public class MailRepository
             smtp.Credentials = new NetworkCredential(MailConstants.FromMailAddress, MailConstants.FromMailPassword);
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Send(message);
+
+            _logger.LogInformation("Mail sent successfully at {Time}", DateTime.UtcNow);
             return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error sending email: " + ex.Message);
+            _logger.LogError(ex, "Error sending email at {Time}", DateTime.UtcNow);
             return false;
         }
     }
